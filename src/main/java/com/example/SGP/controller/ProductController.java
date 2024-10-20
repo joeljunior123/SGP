@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/products")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
@@ -28,6 +29,12 @@ public class ProductController {
     public ResponseEntity<Product> findById(@PathVariable Long id){
         Product obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<Product>> findByName(@RequestParam String name) {
+        List<Product> list = service.findByName(name);
+        return ResponseEntity.ok().body(list);
     }
 
     @PostMapping

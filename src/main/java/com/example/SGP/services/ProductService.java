@@ -1,6 +1,7 @@
 package com.example.SGP.services;
 
 import com.example.SGP.entities.Product;
+import com.example.SGP.exceptions.ResourceNotFoundException;
 import com.example.SGP.repository.ProductResository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,17 @@ public class ProductService {
 
     public Product findById(Long id){
         Optional<Product> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException("Nenhum produto encontrado com o id: " + id));
+    }
+
+    public List<Product> findByName(String name){
+        List<Product> products = repository.findByNameContainingIgnoreCase(name);
+
+        if (products.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhum produto encontrado com o nome: " + name);
+        }
+
+        return products;
     }
 
     public Product insert(Product obj){

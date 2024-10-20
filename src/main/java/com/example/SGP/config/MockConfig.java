@@ -7,11 +7,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
-@Profile("test")
-public class TestConfig implements CommandLineRunner {
+@Profile("mock")
+public class MockConfig implements CommandLineRunner {
 
     @Autowired
     private ProductResository productResository;
@@ -19,9 +20,10 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Product p1 = new Product(null, "Coca-Cola Zero", 2.00, "Coca Cola Zero Lata", "image");
-        Product p2 = new Product(null, "Coca-Cola", 2.00, "Coca Cola Lata", "image");
+        List<Product> products = new ArrayList<>();
 
-        productResository.saveAll(Arrays.asList(p1, p2));
+        products.add(new Product(null, "Coca-Cola Zero", 2.50, "Coca Cola Zero Lata", "image1.png"));
+
+        productResository.saveAll(products);
     }
 }
