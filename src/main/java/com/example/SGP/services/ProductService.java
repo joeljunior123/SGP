@@ -4,9 +4,10 @@ import com.example.SGP.entities.Product;
 import com.example.SGP.exceptions.ResourceNotFoundException;
 import com.example.SGP.repository.ProductResository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,8 +16,8 @@ public class ProductService {
     @Autowired
     private ProductResository repository;
 
-    public List<Product> findAll(){
-        return repository.findAll();
+    public Page<Product> findAll(int page, int itens){
+        return repository.findAll(PageRequest.of(page, itens));
     }
 
     public Product findById(Long id){
@@ -24,8 +25,8 @@ public class ProductService {
         return obj.orElseThrow(() -> new ResourceNotFoundException("Nenhum produto encontrado com o id: " + id));
     }
 
-    public List<Product> findByName(String name){
-        List<Product> products = repository.findByNameContainingIgnoreCase(name);
+    public Page<Product> findByName(String name, int page, int itens){
+        Page<Product> products = repository.findByNameContainingIgnoreCase(name, PageRequest.of(page, itens));
 
         if (products.isEmpty()) {
             throw new ResourceNotFoundException("Nenhum produto encontrado com o nome: " + name);

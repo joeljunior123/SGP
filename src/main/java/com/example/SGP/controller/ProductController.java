@@ -3,6 +3,7 @@ package com.example.SGP.controller;
 import com.example.SGP.entities.Product;
 import com.example.SGP.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,10 +20,10 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll(){
-        List<Product> list = service.findAll();
-
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<Page<Product>> findAll(@RequestParam int page,
+                                                 @RequestParam int itens){
+        Page<Product> pag = service.findAll(page, itens);
+        return ResponseEntity.ok().body(pag);
     }
 
     @GetMapping(value = "/{id}")
@@ -32,10 +33,13 @@ public class ProductController {
     }
 
     @GetMapping(value = "/search")
-    public ResponseEntity<List<Product>> findByName(@RequestParam String name) {
-        List<Product> list = service.findByName(name);
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<Page<Product>> findByName(@RequestParam String name,
+                                                    @RequestParam int page,
+                                                    @RequestParam int size) {
+        Page<Product> paginatedList = service.findByName(name, page, size);
+        return ResponseEntity.ok().body(paginatedList);
     }
+
 
     @PostMapping
     public ResponseEntity<Product> insert(@RequestBody Product obj){
