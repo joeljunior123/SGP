@@ -25,8 +25,9 @@ Este projeto é uma aplicação full-stack desenvolvida com Spring Boot no back-
 
 ### Clonando o Repositório do Projeto Back
 
-git clone https://github.com/joeljunior123/SGP.git
-cd sgp
+```git clone https://github.com/joeljunior123/SGP.git``` 
+
+```cd sgp```
 
 ### Download dependencias BackEnd
 
