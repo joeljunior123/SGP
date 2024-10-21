@@ -18,6 +18,7 @@ public class Product implements Serializable {
     private String name;
     private Double price;
     private String desc;
+    @Lob
     private String image;
 
     public Product(){
